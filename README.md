@@ -18,3 +18,6 @@ This Chrome extension hides unwanted elements on the MakeMyTrip website.
 2.  Enable "Developer mode" in the top right corner.
 3.  Click "Load unpacked".
 4.  Select the directory where you have saved these files.
+
+## Acknowledgements
+The icon used was downloaded from flaticon.com and was created by mia elysia.
