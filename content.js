@@ -77,8 +77,49 @@
     }
   }
 
+  /**
+   * Selects a radio button based on the text of a nearby label.
+   * @param {string} text The text to search for in the label.
+   */
+  function selectRadioButtonByLabelText(text) {
+    const xpath = `//span[contains(text(), "${text}")]/ancestor::label[contains(@class, 'radioboxContainer')]//input[@type='radio']`;
+    const radioButton = document.evaluate(xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+
+    if (radioButton && !radioButton.checked) {
+        radioButton.click();
+    }
+  }
+
+  /**
+   * Clicks an element if it has a specific class and inner text.
+   * @param {string} className The class name of the element.
+   * @param {string} text The inner text of the element.
+   */
+  function clickElementByClassAndText(className, text) {
+    const elements = document.getElementsByClassName(className);
+    for (let i = 0; i < elements.length; i++) {
+      const element = elements[i];
+      if (element.offsetParent !== null && element.innerText.trim() === text) {
+        element.click();
+        break; // Assuming there's only one such element
+      }
+    }
+  }
+
+  /**
+   * Clicks an element with the specified exact text content.
+   * @param {string} text The exact text content to match.
+   */
+  function clickElementByText(text) {
+    const xpath = `//*[text()="${text}"]`;
+    const result = document.evaluate(xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+    if (result && result.offsetParent !== null) {
+      result.click();
+    }
+  }
+
   function run() {
-    if (window.location.pathname.startsWith('/flights')) {
+    if (window.location.pathname === '' || window.location.pathname === '/' || window.location.pathname.startsWith('/flights')) {
       const classesToHide= [
         'choosFrom',
         'choosFrom__list',
@@ -86,6 +127,10 @@
         '_dealCarousel',
         'appDnldCnt',
         'placeInfo',
+		  'tripIdeaWrapper',
+		  'stayOffr',
+        'tpDest',
+		  'hpClcn',
       ];
 
       classesToHide.forEach(className => {
@@ -95,6 +140,7 @@
       const textTitlesToHide = [
         { text: 'Experience Flying with our Airline Partners', levels: 1 },
         { text: 'Add Zero Cancellation', levels: 5 },
+        { text: 'Flagship Hotel Stores on MakeMyTrip', levels: 2 },
       ];
 
       textTitlesToHide.forEach(item => {
@@ -107,7 +153,10 @@
 
       const classesToHide= [
 		  'refundSection',
-		  'UnmatchedComboFaresSection'
+		  'UnmatchedComboFaresSection',
+		  'baggageTag',
+		  'claimSectionV3',
+		  'intlInsurancePersuation',
       ];
 
       classesToHide.forEach(className => {
@@ -119,15 +168,47 @@
 		  'IMP_INFO',
 		  'FAST_FORWARD',
 		  'INDIGO_FAST_FORWARD',
-		  'FARE_LOCK'
+		  'FARE_LOCK',
+		  'insuranceDeals',
+		  'SEATS_N_MEALS',
+		  'DELAY_INSURANCE',
+		  'BYPASS_CABS',
+		  'AIRPORT_SERVICES',
+		  'CHARITY_V2',
       ];
 
       idsToHide.forEach(idName => {
         hideElementById(idName);
       });
 
+	selectRadioButtonByLabelText('I will book without trip secure.');
+
+      const textTitlesToHide = [
+        { text: 'secured their trip in the last month. Get your trip also secured.', levels: 3 },
+      ];
+
+      textTitlesToHide.forEach(item => {
+        hideParentElementIfTextOrTitleContains(item.text, item.levels);
+      });
+
+		clickElementByClassAndText('linkText', 'Skip to cabs');
+		clickElementByClassAndText('linkText', 'Skip to add-ons');
 
 	}
+
+    if (window.location.hostname === 'payments.makemytrip.com') {
+      clickElementByText('View Details');
+      clickElementByText('VIEW ALL');
+
+		
+      const textTitlesToHide = [
+        { text: 'Flight Delay Protection', levels: 4 },
+      ];
+
+      textTitlesToHide.forEach(item => {
+        hideParentElementIfTextOrTitleContains(item.text, item.levels);
+      });
+    }
   }
 
   // Run on initial load
