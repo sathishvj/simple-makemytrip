@@ -118,81 +118,111 @@
     }
   }
 
-  function run() {
-    if (window.location.pathname === '' || window.location.pathname === '/' || window.location.pathname.startsWith('/flights')) {
-      const classesToHide= [
-        'choosFrom',
-        'choosFrom__list',
-        'superOfferSection',
-        '_dealCarousel',
-        'appDnldCnt',
-        'placeInfo',
-		  'tripIdeaWrapper',
-		  'stayOffr',
-        'tpDest',
-		  'hpClcn',
-      ];
-
-      classesToHide.forEach(className => {
-        hideElementsByClassName(className);
-      });
-
-      const textTitlesToHide = [
-        { text: 'Experience Flying with our Airline Partners', levels: 1 },
-        { text: 'Add Zero Cancellation', levels: 5 },
-        { text: 'Flagship Hotel Stores on MakeMyTrip', levels: 2 },
-      ];
-
-      textTitlesToHide.forEach(item => {
-        hideParentElementIfTextOrTitleContains(item.text, item.levels);
-      });
+  /**
+   * Checks a radio button by its ID.
+   * @param {string} id The ID of the radio button to check.
+   */
+  function checkRadioButtonById(id) {
+    const radioButton = document.getElementById(id);
+    if (radioButton && radioButton.type === 'radio' && !radioButton.checked) {
+      radioButton.click();
     }
+  }
+
+  function run() {
+    if (window.location.hostname === 'www.makemytrip.com') {
+		if (window.location.pathname === '' || window.location.pathname === '/' || window.location.pathname.startsWith('/flights')) {
+		        const classesToHide = {
+        'choosFrom': true,
+        'choosFrom__list': true,
+        'superOfferSection': true,
+        '_dealCarousel': true,
+        'appDnldCnt': true,
+        'placeInfo': true,
+        'tripIdeaWrapper': true,
+        'stayOffr': true,
+        'tpDest': true,
+        'hpClcn': true,
+      };
+
+		  for (const className in classesToHide) {
+		    if (classesToHide[className]) {
+		      hideElementsByClassName(className);
+		    }
+		  }
+
+		        const textTitlesToHide = {
+        'Experience Flying with our Airline Partners': { levels: 1, enabled: true },
+        'Add Zero Cancellation': { levels: 5, enabled: true },
+        'Flagship Hotel Stores on MakeMyTrip': { levels: 2, enabled: true },
+      };
+
+		  for (const text in textTitlesToHide) {
+		    const item = textTitlesToHide[text];
+		    if (item.enabled) {
+		      hideParentElementIfTextOrTitleContains(text, item.levels);
+		    }
+		  }
+		}
 
 
-    if (window.location.pathname.startsWith('/flight/reviewDetails')) {
+		if (window.location.pathname.startsWith('/flight/reviewDetails')) {
 
-      const classesToHide= [
-		  'refundSection',
-		  'UnmatchedComboFaresSection',
-		  'baggageTag',
-		  'claimSectionV3',
-		  'intlInsurancePersuation',
-      ];
+		        const classesToHide = {
+        'refundSection': true,
+        'UnmatchedComboFaresSection': true,
+        'baggageTag': true,
+        'claimSectionV3': true,
+        'intlInsurancePersuation': true,
+      };
 
-      classesToHide.forEach(className => {
-        hideElementsByClassName(className);
-      });
+		  for (const className in classesToHide) {
+		    if (classesToHide[className]) {
+		      hideElementsByClassName(className);
+		    }
+		  }
 
-      const idsToHide= [
-		  'TRAVEL_PLANS',
-		  'IMP_INFO',
-		  'FAST_FORWARD',
-		  'INDIGO_FAST_FORWARD',
-		  'FARE_LOCK',
-		  'insuranceDeals',
-		  'SEATS_N_MEALS',
-		  'DELAY_INSURANCE',
-		  'BYPASS_CABS',
-		  'AIRPORT_SERVICES',
-		  'CHARITY_V2',
-      ];
+		        const idsToHide = {
+        'TRAVEL_PLANS': true,
+        'IMP_INFO': true,
+        'FAST_FORWARD': true,
+        'INDIGO_FAST_FORWARD': true,
+        'FARE_LOCK': true,
+        'insuranceDeals': true,
+        'DELAY_INSURANCE': true,
+        'BYPASS_CABS': true,
+        'AIRPORT_SERVICES': true,
+        'CHARITY_V2': true,
+      };
 
-      idsToHide.forEach(idName => {
-        hideElementById(idName);
-      });
+		  for (const idName in idsToHide) {
+		    if (idsToHide[idName]) {
+		      hideElementById(idName);
+		    }
+		  }
 
-	selectRadioButtonByLabelText('I will book without trip secure.');
+		selectRadioButtonByLabelText('I will book without trip secure.');
 
-      const textTitlesToHide = [
-        { text: 'secured their trip in the last month. Get your trip also secured.', levels: 3 },
-      ];
+		        const textTitlesToHide = {
+        'secured their trip in the last month. Get your trip also secured.': { levels: 3, enabled: true },
+      };
 
-      textTitlesToHide.forEach(item => {
-        hideParentElementIfTextOrTitleContains(item.text, item.levels);
-      });
+		  for (const text in textTitlesToHide) {
+		    const item = textTitlesToHide[text];
+		    if (item.enabled) {
+		      hideParentElementIfTextOrTitleContains(text, item.levels);
+		    }
+		  }
 
-		clickElementByClassAndText('linkText', 'Skip to cabs');
-		clickElementByClassAndText('linkText', 'Skip to add-ons');
+			//clickElementByClassAndText('linkText', 'Skip to cabs');
+			//clickElementByClassAndText('linkText', 'Skip to add-ons');
+
+		}
+	  }
+
+    if (window.location.hostname === 'mybiz.makemytrip.com') {
+		checkRadioButtonById('NOT_SELECTED');
+
 
 	}
 
@@ -201,13 +231,16 @@
       clickElementByText('VIEW ALL');
 
 		
-      const textTitlesToHide = [
-        { text: 'Flight Delay Protection', levels: 4 },
-      ];
+       const textTitlesToHide = {
+        'Flight Delay Protection': { levels: 4, enabled: true },
+        };
 
-      textTitlesToHide.forEach(item => {
-        hideParentElementIfTextOrTitleContains(item.text, item.levels);
-      });
+      for (const text in textTitlesToHide) {
+        const item = textTitlesToHide[text];
+        if (item.enabled) {
+          hideParentElementIfTextOrTitleContains(text, item.levels);
+        }
+      }
     }
   }
 
